@@ -3,7 +3,6 @@ use collections::string::String;
 use vector::Vector;
 use hash_map::HashMap;
 use insert::Insert;
-use stack::Stack;
 
 use gl;
 use gl_context::{Context, Buffer, VertexArray};
@@ -84,8 +83,8 @@ impl<'a> GLGeometry<'a> {
         }
 
         let mut vertex_array = Vector::with_capacity(vertex_length);
-        for _ in 0..vertex_length {
-            vertex_array.push(0f32);
+        unsafe {
+            vertex_array.set_len(vertex_length);
         }
 
         let mut last = 0;
