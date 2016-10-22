@@ -1,0 +1,36 @@
+[package]
+name = "gl_geometry"
+version = "0.1.0"
+authors = ["nathanfaucett <nathanfaucett@gmail.com>"]
+
+keywords = ["gl_geometry"]
+description = "gl geometry for a gl renderer"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/nathanfaucett/rs-gl_geometry.git"
+homepage = "https://github.com/nathanfaucett/rs-gl_geometry"
+
+exclude = ["example"]
+
+[dependencies.gl]
+version = "0.6.1"
+
+[dependencies.vector]
+git = "https://github.com/nathanfaucett/rs-vector.git"
+[dependencies.stack]
+git = "https://github.com/nathanfaucett/rs-stack.git"
+
+[dependencies.hash_map]
+git = "https://github.com/nathanfaucett/rs-hash_map.git"
+[dependencies.insert]
+git = "https://github.com/nathanfaucett/rs-insert.git"
+
+[dependencies.shared]
+git = "https://github.com/nathanfaucett/rs-shared.git"
+
+[dependencies.gl_context]
+#git = "https://github.com/nathanfaucett/rs-gl_context.git"
+path = "../../rs-gl_context"
+
+[dependencies.geometry]
+git = "https://github.com/nathanfaucett/rs-geometry.git"

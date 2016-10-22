@@ -1,0 +1,18 @@
+[package]
+name = "example"
+version = "0.1.0"
+authors = ["nathanfaucett <nathanfaucett@gmail.com>"]
+
+[dependencies]
+gl = "0.6.1"
+glutin = "0.6.1"
+
+[dependencies.gl_context]
+#git = "https://github.com/nathanfaucett/rs-gl_context.git"
+path = "../../../rs-gl_context"
+
+[dependencies.geometry]
+git = "https://github.com/nathanfaucett/rs-geometry.git"
+
+[dependencies.gl_geometry]
+path = ".."
