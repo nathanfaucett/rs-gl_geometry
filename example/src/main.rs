@@ -73,8 +73,8 @@ fn main() {
     );
 
     let mut geometry = Geometry::new();
-    geometry.add_attribute(Attribute::new_f32("position", &VERTEX_DATA, 3, false));
-    geometry.add_attribute(Attribute::new_f32("uv", &UV_DATA, 2, false));
+    geometry.add_attribute(Attribute::new_f32("position", Box::new(VERTEX_DATA), 3, false));
+    geometry.add_attribute(Attribute::new_f32("uv", Box::new(UV_DATA), 2, false));
 
     let mut gl_geometry = GLGeometry::new(&context, geometry);
 

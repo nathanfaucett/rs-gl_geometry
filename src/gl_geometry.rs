@@ -24,8 +24,8 @@ impl BufferData {
 }
 
 
-pub struct GLGeometry<'a> {
-    pub geometry: Geometry<'a>,
+pub struct GLGeometry {
+    pub geometry: Geometry,
 
     pub buffer_data: HashMap<String, BufferData>,
 
@@ -39,8 +39,8 @@ pub struct GLGeometry<'a> {
     pub index_line_needs_compile: bool,
 }
 
-impl<'a> GLGeometry<'a> {
-    pub fn new(context: &Context, geometry: Geometry<'a>) -> Self {
+impl GLGeometry {
+    pub fn new(context: &Context, geometry: Geometry) -> Self {
         GLGeometry {
             geometry: geometry,
 
@@ -119,9 +119,9 @@ impl<'a> GLGeometry<'a> {
         return &self.gl_vertex_buffer;
     }
 
-    fn cast_to_f32_array(value: &AttributeValue<'a>) -> &'a [f32] {
+    fn cast_to_f32_array<'a>(value: &'a AttributeValue) -> &'a [f32] {
         match value {
-            &AttributeValue::F32(v) => v,
+            &AttributeValue::F32(ref v) => &**v,
             _ => panic!("invalid attribute value"),
         }
     }
