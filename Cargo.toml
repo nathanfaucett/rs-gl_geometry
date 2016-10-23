@@ -27,8 +27,7 @@ git = "https://github.com/nathanfaucett/rs-insert.git"
 git = "https://github.com/nathanfaucett/rs-shared.git"
 
 [dependencies.gl_context]
-#git = "https://github.com/nathanfaucett/rs-gl_context.git"
-path = "../../rs-gl_context"
+git = "https://github.com/nathanfaucett/rs-gl_context.git"
 
 [dependencies.geometry]
 git = "https://github.com/nathanfaucett/rs-geometry.git"

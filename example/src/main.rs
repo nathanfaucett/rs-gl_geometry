@@ -83,8 +83,8 @@ fn main() {
     context.set_program(&program, false);
 
     let vertex_buffer = gl_geometry.get_vertex_buffer(&mut context, false);
-    program.set_attribute("position", &mut context, &vertex_buffer, 0, false);
-    program.set_attribute("uv", &mut context, &vertex_buffer, 3, false);
+    program.set_attribute("position", &mut context, vertex_buffer, 0, false);
+    program.set_attribute("uv", &mut context, vertex_buffer, 3, false);
 
     let mut playing = true;
     while playing {
