@@ -17,6 +17,10 @@ version = "0.6.1"
 
 [dependencies.vector]
 git = "https://github.com/nathanfaucett/rs-vector.git"
+[dependencies.stack]
+git = "https://github.com/nathanfaucett/rs-stack.git"
+[dependencies.collection]
+git = "https://github.com/nathanfaucett/rs-collection.git"
 
 [dependencies.hash_map]
 git = "https://github.com/nathanfaucett/rs-hash_map.git"

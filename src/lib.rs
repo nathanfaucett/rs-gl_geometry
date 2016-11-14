@@ -4,12 +4,18 @@
 
 extern crate collections;
 
-extern crate gl;
 extern crate shared;
+
+extern crate gl;
 extern crate gl_context;
+
 extern crate vector;
+extern crate stack;
+extern crate collection;
+
 extern crate hash_map;
 extern crate insert;
+
 extern crate geometry;
 
 

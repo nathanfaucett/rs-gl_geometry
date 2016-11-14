@@ -1,8 +1,13 @@
 use collections::string::String;
 
 use vector::Vector;
+use stack::Stack;
+use collection::Collection;
+
 use hash_map::HashMap;
 use insert::Insert;
+
+use shared::Shared;
 
 use gl;
 use gl_context::{Context, Buffer, VertexArray};
@@ -24,7 +29,7 @@ impl BufferData {
 }
 
 
-pub struct GLGeometry {
+pub struct GLGeometryData {
     pub geometry: Geometry,
 
     pub buffer_data: HashMap<String, BufferData>,
@@ -39,45 +44,46 @@ pub struct GLGeometry {
     pub index_line_needs_compile: bool,
 }
 
+pub struct GLGeometry {
+    data: Shared<GLGeometryData>,
+}
+
 impl GLGeometry {
     pub fn new(context: &Context, geometry: Geometry) -> Self {
         GLGeometry {
-            geometry: geometry,
+            data: Shared::new(GLGeometryData {
+                geometry: geometry,
 
-            buffer_data: HashMap::new(),
+                buffer_data: HashMap::new(),
 
-            gl_vertex_array: context.new_vertex_array(),
-            gl_vertex_buffer: context.new_buffer(),
-            gl_index_buffer: context.new_buffer(),
-            gl_index_line_buffer: context.new_buffer(),
+                gl_vertex_array: context.new_vertex_array(),
+                gl_vertex_buffer: context.new_buffer(),
+                gl_index_buffer: context.new_buffer(),
+                gl_index_line_buffer: context.new_buffer(),
 
-            vertex_needs_compile: true,
-            index_needs_compile: true,
-            index_line_needs_compile: true,
+                vertex_needs_compile: true,
+                index_needs_compile: true,
+                index_line_needs_compile: true,
+            })
         }
     }
 
     pub fn get_vertex_buffer(&mut self, context: &mut Context, force: bool) -> &Buffer {
 
-        context.set_vertex_array(&self.gl_vertex_array, force);
+        context.set_vertex_array(&self.data.gl_vertex_array, force);
 
-        if force || self.vertex_needs_compile {
+        if force || self.data.vertex_needs_compile {
             self.compile_vertex_buffer(context)
         } else {
-            &self.gl_vertex_buffer
+            &self.data.gl_vertex_buffer
         }
     }
 
     fn compile_vertex_buffer(&mut self, _context: &mut Context) -> &Buffer {
-        let attributes = self.geometry.get_attributes();
-
-        let ref mut buffer_data = self.buffer_data;
-        buffer_data.clear();
-
         let mut vertex_length = 0;
         let mut stride = 0;
 
-        for (_, attribute) in attributes {
+        for (_, attribute) in self.data.geometry.get_attributes() {
             vertex_length += attribute.len();
             stride += attribute.item_size;
         }
@@ -90,7 +96,9 @@ impl GLGeometry {
         let mut last = 0;
         let mut offset = 0;
 
-        for (_, attribute) in attributes {
+        let mut buffer_data = Vector::new();
+
+        for (_, attribute) in self.data.geometry.get_attributes() {
             let attribute_array = Self::cast_to_f32_array(&attribute.value);
 
             let item_size = attribute.item_size;
@@ -110,13 +118,18 @@ impl GLGeometry {
                 index += item_size;
             }
 
-            buffer_data.insert(attribute.name.clone(), BufferData::new(&attribute.name, offset));
+            buffer_data.push(BufferData::new(&attribute.name, offset));
         }
 
-        self.gl_vertex_buffer.set(gl::ARRAY_BUFFER, &vertex_array, stride, gl::STATIC_DRAW);
-        self.vertex_needs_compile = false;
+        while !buffer_data.is_empty() {
+            let data = buffer_data.pop().unwrap();
+            self.data.buffer_data.insert(data.name.clone(), data);
+        }
 
-        return &self.gl_vertex_buffer;
+        self.data.gl_vertex_buffer.set(gl::ARRAY_BUFFER, &vertex_array, stride, gl::STATIC_DRAW);
+        self.data.vertex_needs_compile = false;
+
+        return &self.data.gl_vertex_buffer;
     }
 
     fn cast_to_f32_array<'a>(value: &'a AttributeValue) -> &'a [f32] {
