@@ -44,6 +44,7 @@ pub struct GLGeometryData {
     pub index_line_needs_compile: bool,
 }
 
+#[derive(Clone)]
 pub struct GLGeometry {
     data: Shared<GLGeometryData>,
 }
