@@ -1,7 +1,9 @@
+#![feature(alloc)]
 #![feature(collections)]
 #![no_std]
 
 
+extern crate alloc;
 extern crate collections;
 
 extern crate shared;
@@ -17,6 +19,7 @@ extern crate hash_map;
 extern crate insert;
 
 extern crate geometry;
+extern crate num;
 
 
 mod gl_geometry;

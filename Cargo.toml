@@ -35,3 +35,5 @@ git = "https://github.com/nathanfaucett/rs-gl_context.git"
 
 [dependencies.geometry]
 git = "https://github.com/nathanfaucett/rs-geometry.git"
+[dependencies.num]
+git = "https://github.com/nathanfaucett/rs-num.git"

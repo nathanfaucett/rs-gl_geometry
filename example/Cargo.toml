@@ -13,5 +13,8 @@ git = "https://github.com/nathanfaucett/rs-gl_context.git"
 [dependencies.geometry]
 git = "https://github.com/nathanfaucett/rs-geometry.git"
 
+[dependencies.vector]
+git = "https://github.com/nathanfaucett/rs-vector.git"
+
 [dependencies.gl_geometry]
 path = ".."

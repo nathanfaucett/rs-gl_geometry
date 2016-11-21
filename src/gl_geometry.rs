@@ -1,3 +1,5 @@
+use alloc::boxed::Box;
+
 use collections::string::String;
 
 use vector::Vector;
@@ -8,6 +10,7 @@ use hash_map::HashMap;
 use insert::Insert;
 
 use shared::Shared;
+use num::Num;
 
 use gl;
 use gl_context::{Context, Buffer, VertexArray};
@@ -133,10 +136,30 @@ impl GLGeometry {
         return &self.data.gl_vertex_buffer;
     }
 
-    fn cast_to_f32_array<'a>(value: &'a AttributeValue) -> &'a [f32] {
+    fn cast_to_f32_array<'a>(value: &'a AttributeValue) -> Vector<f32> {
         match value {
-            &AttributeValue::F32(ref v) => &**v,
-            _ => panic!("invalid attribute value"),
+            &AttributeValue::F32(ref v) => v.clone(),
+            &AttributeValue::F64(ref v) => Self::to_f32_array::<f64>(v),
+
+            &AttributeValue::U8(ref v) => Self::to_f32_array::<u8>(v),
+            &AttributeValue::U16(ref v) => Self::to_f32_array::<u16>(v),
+            &AttributeValue::U32(ref v) => Self::to_f32_array::<u32>(v),
+            &AttributeValue::U64(ref v) => Self::to_f32_array::<u64>(v),
+
+            &AttributeValue::I8(ref v) => Self::to_f32_array::<i8>(v),
+            &AttributeValue::I16(ref v) => Self::to_f32_array::<i16>(v),
+            &AttributeValue::I32(ref v) => Self::to_f32_array::<i32>(v),
+            &AttributeValue::I64(ref v) => Self::to_f32_array::<i64>(v),
         }
+    }
+
+    fn to_f32_array<'a, T: Num>(values: &'a Vector<T>) -> Vector<f32> {
+        let mut out: Vector<f32> = Vector::with_capacity(values.len());
+
+        for x in values.iter() {
+            out.push(x.to_f32());
+        }
+
+        out
     }
 }

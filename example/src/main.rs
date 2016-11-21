@@ -2,6 +2,9 @@ extern crate gl;
 extern crate glutin;
 extern crate gl_context;
 
+#[macro_use]
+extern crate vector;
+
 extern crate geometry;
 extern crate gl_geometry;
 
@@ -11,20 +14,6 @@ use gl_context::{Context, Depth};
 use geometry::{Geometry, Attribute};
 use gl_geometry::GLGeometry;
 
-
-static VERTEX_DATA: [f32; 12] = [
-    0.5f32, 0.5f32, 0f32,
-    -0.5f32, 0.5f32, 0f32,
-    0.5f32, -0.5f32, 0f32,
-    -0.5f32, -0.5f32, 0f32
-];
-
-static UV_DATA: [f32; 8] = [
-    1f32, 1f32,
-    0f32, 1f32,
-    1f32, 0f32,
-    0f32, 0f32
-];
 
 static VS_SRC: &'static str = "
     #version 140
@@ -73,8 +62,18 @@ fn main() {
     );
 
     let mut geometry = Geometry::new();
-    geometry.add_attribute(Attribute::new_f32("position", Box::new(VERTEX_DATA), 3, false));
-    geometry.add_attribute(Attribute::new_f32("uv", Box::new(UV_DATA), 2, false));
+    geometry.add_attribute(Attribute::new_f32("position", vector![
+        0.5f32, 0.5f32, 0f32,
+        -0.5f32, 0.5f32, 0f32,
+        0.5f32, -0.5f32, 0f32,
+        -0.5f32, -0.5f32, 0f32
+    ], 3, false));
+    geometry.add_attribute(Attribute::new_f32("uv", vector![
+        1f32, 1f32,
+        0f32, 1f32,
+        1f32, 0f32,
+        0f32, 0f32
+    ], 2, false));
 
     let mut gl_geometry = GLGeometry::new(&context, geometry);
 
