@@ -1,5 +1,3 @@
-use alloc::boxed::Box;
-
 use collections::string::String;
 
 use vector::Vector;
