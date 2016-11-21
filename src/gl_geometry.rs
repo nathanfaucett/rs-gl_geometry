@@ -31,18 +31,18 @@ impl BufferData {
 
 
 pub struct GLGeometryData {
-    pub geometry: Geometry,
+    geometry: Geometry,
 
-    pub buffer_data: HashMap<String, BufferData>,
+    buffer_data: HashMap<String, BufferData>,
 
-    pub gl_vertex_array: VertexArray,
-    pub gl_vertex_buffer: Buffer,
-    pub gl_index_buffer: Buffer,
-    pub gl_index_line_buffer: Buffer,
+    gl_vertex_array: VertexArray,
+    gl_vertex_buffer: Buffer,
+    gl_index_buffer: Buffer,
+    gl_index_line_buffer: Buffer,
 
-    pub vertex_needs_compile: bool,
-    pub index_needs_compile: bool,
-    pub index_line_needs_compile: bool,
+    vertex_needs_compile: bool,
+    index_needs_compile: bool,
+    index_line_needs_compile: bool,
 }
 
 #[derive(Clone)]
