@@ -70,6 +70,9 @@ impl GLGeometry {
         }
     }
 
+    pub fn get_buffer_data(&self) -> &HashMap<String, BufferData> {&self.data.buffer_data}
+    pub fn get_buffer_data_mut(&mut self) -> &mut HashMap<String, BufferData> {&mut self.data.buffer_data}
+
     pub fn get_vertex_buffer(&mut self, context: &mut Context, force: bool) -> &Buffer {
 
         context.set_vertex_array(&self.data.gl_vertex_array, force);
