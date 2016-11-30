@@ -15,13 +15,14 @@ use gl_context::{Context, Buffer, VertexArray};
 use geometry::{Geometry, AttributeValue};
 
 
+#[derive(Clone)]
 pub struct BufferData {
     pub name: String,
     pub offset: usize,
 }
 
 impl BufferData {
-    fn new(name: &str, offset: usize) -> Self {
+    pub fn new(name: &str, offset: usize) -> Self {
         BufferData {
             name: String::from(name),
             offset: offset,

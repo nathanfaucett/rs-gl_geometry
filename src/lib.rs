@@ -23,4 +23,4 @@ extern crate num;
 mod gl_geometry;
 
 
-pub use gl_geometry::GLGeometry;
+pub use gl_geometry::*;
