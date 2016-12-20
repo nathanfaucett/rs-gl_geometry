@@ -9,6 +9,8 @@ extern crate geometry;
 extern crate gl_geometry;
 
 
+use std::mem;
+
 use gl_context::{Context, Depth};
 
 use geometry::{Geometry, Attribute};
@@ -19,11 +21,14 @@ static VS_SRC: &'static str = "
     #version 140
 
     in vec3 position;
+    in vec3 normal;
     in vec2 uv;
 
+    varying vec3 v_normal;
     varying vec2 v_uv;
 
     void main() {
+        v_normal = normal;
         v_uv = uv;
         gl_Position = vec4(position, 1.0);
     }
@@ -33,10 +38,11 @@ static FS_SRC: &'static str = "
 
     out vec4 out_color;
 
+    varying vec3 v_normal;
     varying vec2 v_uv;
 
     void main() {
-        out_color = vec4(v_uv, 1.0, 1.0);
+        out_color = vec4(v_uv, v_normal.z, 1.0);
     }
 ";
 
@@ -63,27 +69,32 @@ fn main() {
 
     let mut geometry = Geometry::new();
     geometry.add_attribute(Attribute::new_f32("position", vector![
-        0.5f32, 0.5f32, 0f32,
-        -0.5f32, 0.5f32, 0f32,
-        0.5f32, -0.5f32, 0f32,
-        -0.5f32, -0.5f32, 0f32
+        -0.5, -0.5, 0.0,
+        -0.5, 0.5, 0.0,
+        0.5, 0.5, 0.0,
+        0.5, -0.5, 0.0
+    ], 3, false));
+    geometry.add_attribute(Attribute::new_f32("normal", vector![
+        0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0
     ], 3, false));
     geometry.add_attribute(Attribute::new_f32("uv", vector![
-        1f32, 1f32,
-        0f32, 1f32,
-        1f32, 0f32,
-        0f32, 0f32
+        0.0, 0.0,
+        0.0, 1.0,
+        1.0, 1.0,
+        1.0, 0.0
     ], 2, false));
+    geometry.set_index(Attribute::new_u32("index", vector![
+        0, 2, 1, 0, 3, 2
+    ], 1, false));
 
     let mut gl_geometry = GLGeometry::new(&context, geometry);
 
     let mut program = context.new_program();
     program.set(VS_SRC, FS_SRC);
     context.set_program(&program, false);
-
-    let vertex_buffer = gl_geometry.get_vertex_buffer(&mut context, false);
-    program.set_attribute("position", &mut context, vertex_buffer, 0, false);
-    program.set_attribute("uv", &mut context, vertex_buffer, 3, false);
 
     let mut playing = true;
     while playing {
@@ -102,7 +113,26 @@ fn main() {
         context.clear(true, true, true);
         context.set_clear_color(&[0.3, 0.3, 0.3, 1.0]);
 
-        unsafe { gl::DrawArrays(gl::TRIANGLE_STRIP, 0, 4); }
+        {
+            let mut tmp = gl_geometry.clone();
+            let vertex_buffer = tmp.get_vertex_buffer(&mut context, false);
+
+            for (name, attribute) in program.get_attributes_mut() {
+                attribute.set(&mut context, vertex_buffer, gl_geometry.get_offset(name), false);
+            }
+        }
+
+        let index_buffer = gl_geometry.get_index_buffer(&mut context, false);
+        context.set_buffer(&index_buffer, false);
+
+        unsafe {
+            gl::DrawElements(
+                gl::TRIANGLES,
+                index_buffer.get_length() as i32,
+                gl::UNSIGNED_INT,
+                mem::transmute(0usize)
+            );
+        }
 
         match window.swap_buffers() {
             Ok(_) => (),
