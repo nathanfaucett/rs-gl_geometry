@@ -1,6 +1,6 @@
 #![feature(collections)]
-//#![no_std]
-extern crate core;
+#![no_std]
+
 
 extern crate collections;
 
