@@ -12,28 +12,19 @@ homepage = "https://github.com/nathanfaucett/rs-gl_geometry"
 
 exclude = ["example"]
 
-[dependencies.gl]
-version = "0.6.1"
+[dependencies]
+gl = {version = "0.6.1"}
 
-[dependencies.vector]
-git = "https://github.com/nathanfaucett/rs-vector.git"
-[dependencies.stack]
-git = "https://github.com/nathanfaucett/rs-stack.git"
-[dependencies.collection]
-git = "https://github.com/nathanfaucett/rs-collection.git"
+vector = {git = "https://github.com/nathanfaucett/rs-vector.git"}
+stack = {git = "https://github.com/nathanfaucett/rs-stack.git"}
+collection = {git = "https://github.com/nathanfaucett/rs-collection.git"}
 
-[dependencies.hash_map]
-git = "https://github.com/nathanfaucett/rs-hash_map.git"
-[dependencies.insert]
-git = "https://github.com/nathanfaucett/rs-insert.git"
+hash_map = {git = "https://github.com/nathanfaucett/rs-hash_map.git"}
+insert = {git = "https://github.com/nathanfaucett/rs-insert.git"}
 
-[dependencies.shared]
-git = "https://github.com/nathanfaucett/rs-shared.git"
+shared = {git = "https://github.com/nathanfaucett/rs-shared.git"}
 
-[dependencies.gl_context]
-git = "https://github.com/nathanfaucett/rs-gl_context.git"
+gl_context = {git = "https://github.com/nathanfaucett/rs-gl_context.git"}
 
-[dependencies.geometry]
-git = "https://github.com/nathanfaucett/rs-geometry.git"
-[dependencies.num]
-git = "https://github.com/nathanfaucett/rs-num.git"
+geometry = {git = "https://github.com/nathanfaucett/rs-geometry.git"}
+num = {git = "https://github.com/nathanfaucett/rs-num.git"}
