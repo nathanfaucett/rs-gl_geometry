@@ -7,14 +7,7 @@ authors = ["nathanfaucett <nathanfaucett@gmail.com>"]
 gl = "0.6.1"
 glutin = "0.7.0"
 
-[dependencies.gl_context]
-git = "https://github.com/nathanfaucett/rs-gl_context.git"
-
-[dependencies.geometry]
-git = "https://github.com/nathanfaucett/rs-geometry.git"
-
-[dependencies.vector]
-git = "https://github.com/nathanfaucett/rs-vector.git"
-
-[dependencies.gl_geometry]
-path = ".."
+gl_context = {git = "https://github.com/nathanfaucett/rs-gl_context.git"}
+geometry = {git = "https://github.com/nathanfaucett/rs-geometry.git"}
+vector = {git = "https://github.com/nathanfaucett/rs-vector.git"}
+gl_geometry = {path = ".."}
