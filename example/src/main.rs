@@ -11,7 +11,7 @@ extern crate gl_geometry;
 
 use std::mem;
 
-use gl_context::{Context, Depth};
+use gl_context::Context;
 
 use geometry::{Geometry, Attribute};
 use gl_geometry::GLGeometry;
@@ -60,7 +60,6 @@ fn main() {
     }
 
     context.init();
-    context.set_depth_func(Depth::Always);
 
     println!(
         "OpenGL version: {:?}.{:?}, GLSL version {:?}.{:?}0",
